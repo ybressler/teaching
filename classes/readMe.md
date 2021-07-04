@@ -35,14 +35,14 @@ record = {
 
 }
 ```
-### Some notes:
-    * Each person can have many work experiences
-    * A person cannot have concurrent jobs (each job they've had cannot
-        exist while they've had another job).
-        * If a start data precedes an end date, overwrite the start date to
-            the end date. Ex: job 1 ends 2015-01-15 and job 2 starts at
-            2015-01-01. Overwrite job 2 to start at 2015-01-15
-    * If an end date is not provided, assume that person still holds that job.
+**Some notes:**
+* Each person can have many work experiences
+* A person cannot have concurrent jobs (each job they've had cannot
+    exist while they've had another job).
+    * If a start data precedes an end date, overwrite the start date to
+        the end date. Ex: job 1 ends 2015-01-15 and job 2 starts at
+        2015-01-01. Overwrite job 2 to start at 2015-01-15
+* If an end date is not provided, assume that person still holds that job.
 
 
 ## Requirements:
