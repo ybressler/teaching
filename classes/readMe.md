@@ -35,7 +35,7 @@ record = {
 
 }
 ```
-**Some notes:**
+#### Some notes:
 * Each person can have many work experiences
 * A person cannot have concurrent jobs (each job they've had cannot
     exist while they've had another job).
