@@ -1,0 +1,9 @@
+# Byte-compiled / optimized / DLL files
+__pycache__
+*.py[cod]
+*.pyc
+.DS_Store
+
+
+# ignore scratch work
+tmp/
