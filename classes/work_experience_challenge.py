@@ -7,7 +7,14 @@ with open('classes/work_experience_challenge.json', 'r') as f:
     data = json.load(f)
 
 
-class Person:
+class Base:
+    """Base functionality"""
+    def __repr__(self):
+        """Neat representation of an obj"""
+        my_formatter = lambda k,v : f'{k}: {v}' if not isinstance(v,(list, dict)) else f'{k}: {v.__class__}'
+        return ', '.join([my_formatter(k,v) for k,v in  self.__dict__.items()])
+
+class Person(Base):
     """Create a person to represent each person in the dataset"""
     def __init__(self, first_name: str, last_name: str, **kwargs):
         self.first_name = first_name
@@ -20,7 +27,7 @@ class Person:
             self.work_experience = []  # always init with no experiences
 
 
-class WorkExperience:
+class WorkExperience(Base):
     """Represents a work experience, regardless of whom"""
 
     def __init__(self, company: str, title: str, start_date: datetime, end_date: datetime):
@@ -28,6 +35,9 @@ class WorkExperience:
         self.job_title = JobTitle(title)
         self.start_date = self.validate_dt(start_date)
         self.end_date = self.validate_dt(end_date)
+
+        # Now determine the length of time this person has held this job
+        self.duration_months = (self.end_date - self.start_date).days // 30  # say there are 30 days in a month...
 
     @staticmethod
     def validate_dt(dt):
@@ -43,13 +53,13 @@ class WorkExperience:
             return dt
 
 
-class Company:
+class Company(Base):
     """Represent a company"""
     def __init__(self, name: str):
         self.name = name
 
 
-class JobTitleHelper:
+class JobTitleHelper(Base):
     """Use this class to add functionality to `JobTitle`"""
     def __init__(self):
         # One helper function
@@ -57,7 +67,7 @@ class JobTitleHelper:
         # Add more helper functions here
 
 
-class JobTitle(JobTitleHelper):
+class JobTitle(JobTitleHelper, Base):
     """Represents a job title"""
 
     def __init__(self, name: str):
@@ -80,7 +90,13 @@ for record in data:
     my_person = Person(**record)
     my_people.append(my_person)
 
+# View each person by printing
+my_person = my_people[0]
+print(my_person)
 
-[x.__dict__ for x in my_people]
+# View their attributes by printing __dict__
+print(my_person.__dict__)
 
-my_people[0].work_experience[0].job_title.__dict__
+# View their work experiences
+for exp in my_person.work_experience:
+    print(exp)
