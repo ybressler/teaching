@@ -26,6 +26,14 @@ class Person(Base):
         else:
             self.work_experience = []  # always init with no experiences
 
+    # Alternatively, I can make a property which calculates it each time its called
+    @property
+    def total_years_experience(self):
+        """Calculate how many years of experience"""
+        return None
+
+
+
 
 class WorkExperience(Base):
     """Represents a work experience, regardless of whom"""
@@ -36,7 +44,9 @@ class WorkExperience(Base):
         self.start_date = self.validate_dt(start_date)
         self.end_date = self.validate_dt(end_date)
 
-        # Now determine the length of time this person has held this job
+        # ToDo: Maybe don't evaluate duration here, do so later because
+        #  the start and end date might change depending on quality of
+        #  the data
         self.duration_months = (self.end_date - self.start_date).days // 30  # say there are 30 days in a month...
 
     @staticmethod
@@ -90,13 +100,8 @@ for record in data:
     my_person = Person(**record)
     my_people.append(my_person)
 
-# View each person by printing
-my_person = my_people[0]
-print(my_person)
+# ------------------------------------------------------------------------------
 
-# View their attributes by printing __dict__
-print(my_person.__dict__)
-
-# View their work experiences
-for exp in my_person.work_experience:
-    print(exp)
+# Print each person and their total years of experience
+for person in my_people:
+    print(person, getattr(person, 'total_years_experience'))
