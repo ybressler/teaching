@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 # Load your data
-with open('classes/work_experience_challenge.json', 'r') as f:
+with open('work_experience_challenge.json', 'r') as f:
     data = json.load(f)
 
 
@@ -30,8 +30,11 @@ class Person(Base):
     @property
     def total_years_experience(self):
         """Calculate how many years of experience"""
-        return None
 
+        durations = [x.duration_months for x in self.work_experience]
+        total_months = sum(durations)
+        total_years = total_months / 12
+        return total_years
 
 
 
@@ -47,7 +50,7 @@ class WorkExperience(Base):
     @property
     def duration_months(self):
         """Calculate as a property because start date and end date might change"""
-        self.duration_months = (self.end_date - self.start_date).days // 30  # say there are 30 days in a month...
+        return (self.end_date - self.start_date).days // 30  # say there are 30 days in a month...
 
     
     @staticmethod
