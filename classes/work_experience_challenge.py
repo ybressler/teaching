@@ -44,11 +44,12 @@ class WorkExperience(Base):
         self.start_date = self.validate_dt(start_date)
         self.end_date = self.validate_dt(end_date)
 
-        # ToDo: Maybe don't evaluate duration here, do so later because
-        #  the start and end date might change depending on quality of
-        #  the data
+    @property
+    def duration_months(self):
+        """Calculate as a property because start date and end date might change"""
         self.duration_months = (self.end_date - self.start_date).days // 30  # say there are 30 days in a month...
 
+    
     @staticmethod
     def validate_dt(dt):
         """Convert to date if a string"""
