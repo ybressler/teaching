@@ -1,6 +1,7 @@
 This module contains information + is a guide for how and when to use
 classes in python.
 
+
 # Challenge:
 Say you are building a tool which allows recruiters more effectively
 screen candidates for a given job. The recruiter gives you a "wish list"
