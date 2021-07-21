@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 # Load your data
-with open('work_experience_challenge.json', 'r') as f:
+with open('classes/work_experience_challenge.json', 'r') as f:
     data = json.load(f)
 
 
@@ -32,11 +32,14 @@ class Person(Base):
         """Calculate how many years of experience"""
 
         durations = [x.duration_months for x in self.work_experience]
-        total_months = sum(durations)
-        total_years = total_months / 12
-        return total_years
+        return sum(durations) /12
 
+    @property
+    def total_years_experience_in_senior_role(self):
+        """Calculate how many years of experience in a senior role"""
 
+        durations = [x.duration_months for x in self.work_experience if x.job_title.is_at_least_senior]
+        return sum(durations) /12
 
 class WorkExperience(Base):
     """Represents a work experience, regardless of whom"""
@@ -78,7 +81,13 @@ class JobTitleHelper(Base):
     def __init__(self):
         # One helper function
         self.is_senior = 'senior' in self.name.lower()
+        self.is_senior_management = 'head of' in self.name.lower()
+        self.is_director = 'director of' in self.name.lower()
         # Add more helper functions here
+
+    @property
+    def is_at_least_senior(self):
+        return any([self.is_senior, self.is_director, self.is_senior_management])
 
 
 class JobTitle(JobTitleHelper, Base):
@@ -108,4 +117,4 @@ for record in data:
 
 # Print each person and their total years of experience
 for person in my_people:
-    print(person, getattr(person, 'total_years_experience'))
+    print(person, getattr(person, 'total_years_experience_in_senior_role'))
